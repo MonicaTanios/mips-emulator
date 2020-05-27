@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace MipsEmulator
 {
-    public partial class Form1 : Form
+    public partial class MipsEmulator : Form
     {
         public static Dictionary<string, object> MipsRegisters = new Dictionary<string, object>();
         public static Hashtable InstructionMemory = new Hashtable();
@@ -17,7 +17,7 @@ namespace MipsEmulator
         public int ClockCycleValue;
         public int PcCurrentVal;
         public int InitialPcVal;
-        public Form1()
+        public MipsEmulator()
         {
             InitializeComponent();
         }

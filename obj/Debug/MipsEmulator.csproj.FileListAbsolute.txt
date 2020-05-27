@@ -2,9 +2,9 @@ C:\Users\Monica\source\repos\MipsEmulator\bin\Debug\MipsEmulator.exe.config
 C:\Users\Monica\source\repos\MipsEmulator\bin\Debug\MipsEmulator.exe
 C:\Users\Monica\source\repos\MipsEmulator\bin\Debug\MipsEmulator.pdb
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.csprojAssemblyReference.cache
-C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.Form1.resources
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.Properties.Resources.resources
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.csproj.GenerateResource.cache
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.csproj.CoreCompileInputs.cache
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.exe
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.pdb
+C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.MipsEmulator.resources
