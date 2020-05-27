@@ -275,5 +275,36 @@ namespace MipsEmulator
                 break;
             }
         }
+
+        private void runOneCycle_Click(object sender, EventArgs e)
+        {
+            ClockCycleValue++;
+            WriteBack();
+            Memory();
+            Execute();
+            Decode();
+            Fetch();
+        }
+
+        private void initialize_Click(object sender, EventArgs e)
+        {
+            MachineCodeLines = userCode.Text.Split(
+                new[] { "\n" },
+                StringSplitOptions.None
+            );
+            PcCurrentVal = int.Parse(PCVal.Text);
+            InitialPcVal = PcCurrentVal;
+            var pcValue = int.Parse(PCVal.Text);
+            foreach (var line in MachineCodeLines)
+            {
+                InstructionMemory[pcValue] = line;
+                pcValue += 4;
+            }
+            PipelineRegistersList.IFID = new Queue<object>();
+            PipelineRegistersList.MEMWB = new Queue<object>();
+            PipelineRegistersList.EXMEM = new Queue<object>();
+            PipelineRegistersList.IDEX = new Queue<object>();
+            FormDefaultValues();
+        }
     }
 }
