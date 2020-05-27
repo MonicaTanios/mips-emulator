@@ -2,7 +2,7 @@
 
 namespace MipsEmulator
 {
-    static class PipelineRegisters
+    static class PipelineRegistersList
     {
         public static Queue<object> IFID { get; set; }
         public static Queue<object> IDEX { get; set; }
