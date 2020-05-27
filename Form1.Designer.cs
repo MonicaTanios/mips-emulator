@@ -63,6 +63,7 @@
             this.runOneCycle.TabIndex = 35;
             this.runOneCycle.Text = "Run 1 Cycle";
             this.runOneCycle.UseVisualStyleBackColor = true;
+            this.runOneCycle.Click += new System.EventHandler(this.runOneCycle_Click);
             // 
             // initialize
             // 
@@ -72,6 +73,7 @@
             this.initialize.TabIndex = 34;
             this.initialize.Text = "Initialize";
             this.initialize.UseVisualStyleBackColor = true;
+            this.initialize.Click += new System.EventHandler(this.initialize_Click);
             // 
             // PCVal
             // 
