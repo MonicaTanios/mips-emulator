@@ -1,6 +1,6 @@
 ﻿namespace MipsEmulator
 {
-    partial class Form1
+    partial class MipsEmulator
     {
         /// <summary>
         /// Required designer variable.
@@ -154,7 +154,7 @@
             this.DataMemory.Size = new System.Drawing.Size(273, 402);
             this.DataMemory.TabIndex = 38;
             // 
-            // Form1
+            // MipsEmulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -171,8 +171,8 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MipsEmulator";
+            this.Text = "MipsEmulator";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MipsRegistersDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PipelineRegisters)).EndInit();
