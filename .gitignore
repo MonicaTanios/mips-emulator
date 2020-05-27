@@ -1,6 +1,10 @@
 # Visual Studio
-[Bb]in/
-[Oo]bj/
+bin/Debug/MipsEmulator.exe
+bin/Debug/MipsEmulator.pdb
+obj/Debug/MipsEmulator.csproj.GenerateResource.cache
+obj/Debug/MipsEmulator.csprojAssemblyReference.cache
+obj/Debug/MipsEmulator.exe
+obj/Debug/MipsEmulator.pdb
 
 # Log files
 *.log

@@ -38,7 +38,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.PipelineRegisters = new System.Windows.Forms.DataGridView();
+            this.DataMemory = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.MipsRegistersDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PipelineRegisters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataMemory)).BeginInit();
             this.SuspendLayout();
             // 
             // MipsRegistersDataGrid
@@ -130,11 +134,33 @@
             this.label1.TabIndex = 27;
             this.label1.Text = "User Code";
             // 
+            // PipelineRegisters
+            // 
+            this.PipelineRegisters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PipelineRegisters.Location = new System.Drawing.Point(747, 37);
+            this.PipelineRegisters.Name = "PipelineRegisters";
+            this.PipelineRegisters.RowHeadersWidth = 51;
+            this.PipelineRegisters.RowTemplate.Height = 24;
+            this.PipelineRegisters.Size = new System.Drawing.Size(271, 402);
+            this.PipelineRegisters.TabIndex = 37;
+            // 
+            // DataMemory
+            // 
+            this.DataMemory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataMemory.Location = new System.Drawing.Point(1047, 37);
+            this.DataMemory.Name = "DataMemory";
+            this.DataMemory.RowHeadersWidth = 51;
+            this.DataMemory.RowTemplate.Height = 24;
+            this.DataMemory.Size = new System.Drawing.Size(273, 402);
+            this.DataMemory.TabIndex = 38;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 568);
+            this.Controls.Add(this.DataMemory);
+            this.Controls.Add(this.PipelineRegisters);
             this.Controls.Add(this.MipsRegistersDataGrid);
             this.Controls.Add(this.runOneCycle);
             this.Controls.Add(this.initialize);
@@ -147,7 +173,10 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MipsRegistersDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PipelineRegisters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataMemory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,6 +194,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridView PipelineRegisters;
+        private System.Windows.Forms.DataGridView DataMemory;
     }
 }
 
