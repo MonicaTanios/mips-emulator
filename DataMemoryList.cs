@@ -1,6 +1,6 @@
 ﻿namespace MipsEmulator
 {
-    static class DataMemory
+    static class DataMemoryList
     {
         public static uint Address { get; set; }
         public static uint WriteData { get; set; }

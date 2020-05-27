@@ -71,5 +71,209 @@ namespace MipsEmulator
                 .ToDictionary<DataRow, string, object>(row => row.Field<string>(0),
                     row => row.Field<object>(1));
         }
+
+        private void Fetch()
+        {
+            if (PcCurrentVal >= (InitialPcVal + MachineCodeLines.Length * 4))
+            {
+                foreach (DataGridViewRow row in PipelineRegisters.Rows)
+                {
+                    if (row.Cells["Register"].Value.ToString() != "IF/ID") continue;
+                    PipelineRegisters[1, row.Index].Value = "-";
+                    return;
+                }
+            }
+
+            //Get instruction
+            var currentInstruction = InstructionMemory[PcCurrentVal];
+            //Move to next instruction
+            PcCurrentVal += 4;
+            //Store Instruction in IF/ID
+            foreach (DataGridViewRow row in PipelineRegisters.Rows)
+            {
+                if (row.Cells["Register"].Value.ToString() != "IF/ID") continue;
+                PipelineRegisters[1, row.Index].Value = currentInstruction;
+                break;
+            }
+            PipelineRegistersList.IFID.Enqueue(currentInstruction);
+        }
+
+        private void Decode()
+        {
+            if (PipelineRegistersList.IFID.Count == 0)
+            {
+                foreach (DataGridViewRow row in PipelineRegisters.Rows)
+                {
+                    if (row.Cells["Register"].Value.ToString() != "IF/ID") continue;
+                    PipelineRegisters[1, row.Index].Value = "-";
+                    return;
+                }
+            }
+
+            //Take instruction from IF/ID
+            var currentInstruction = PipelineRegistersList.IFID.Dequeue();
+
+            //Remove extra spaces, commas, initial PC
+            var instructionFormat = currentInstruction.ToString().Substring(6).Replace(" ", "");
+            var instructionOpCode = instructionFormat.Substring(0, 6);
+            ControlUnit.SetAluControls(instructionOpCode);
+            RegisterFile.ReadRegisterOne = Convert.ToUInt32(instructionFormat.Substring(6, 5), 2);
+            RegisterFile.ReadRegisterTwo = Convert.ToUInt32(instructionFormat.Substring(11, 5), 2);
+
+            //Read Data for given Register Addresses
+            RegisterFile.ReadData1();
+            RegisterFile.ReadData2();
+
+            //Store rs, rt
+            PipelineRegistersList.IDEX.Enqueue(RegisterFile.ReadDataOne);
+            PipelineRegistersList.IDEX.Enqueue(RegisterFile.ReadDataTwo);
+            var address = Convert.ToUInt32(instructionFormat.Substring(16, 16), 2);
+            //Store Sign Extension
+            PipelineRegistersList.IDEX.Enqueue(address);
+            //Store rt
+            PipelineRegistersList.IDEX.Enqueue(RegisterFile.ReadRegisterTwo);
+            //Store rd
+            PipelineRegistersList.IDEX.Enqueue(Convert.ToUInt32(instructionFormat.Substring(16, 5), 2));
+            var func = instructionFormat.Substring(26, 6);
+            var arr = func.ToCharArray();
+            Array.Reverse(arr);
+            func = new string(arr);
+            ALUControlBlock.Function = func;
+
+            //Add to DataGridView
+            foreach (DataGridViewRow row in PipelineRegisters.Rows)
+            {
+                if (row.Cells["Register"].Value.ToString() != "ID/EX") continue;
+                PipelineRegisters[1, row.Index].Value = string.Concat(RegisterFile.ReadDataOne.ToString(), ", ",
+                    RegisterFile.ReadDataTwo, ", ", address.ToString(), ", ", RegisterFile.ReadRegisterTwo.ToString(), ", ", Convert.ToUInt32(instructionFormat.Substring(16, 5), 2).ToString());
+                break;
+            }
+            ALUControlBlock.AluOp = ControlUnit.AluOp0 + ControlUnit.AluOp1.ToString();
+
+        }
+
+        private void Execute()
+        {
+            if (PipelineRegistersList.IDEX.Count == 0)
+            {
+                foreach (DataGridViewRow row in PipelineRegisters.Rows)
+                {
+                    if (row.Cells["Register"].Value.ToString() != "ID/EX") continue;
+                    PipelineRegisters[1, row.Index].Value = "-";
+                    return;
+                }
+            }
+
+            var readDataOne = PipelineRegistersList.IDEX.Dequeue();
+            var readDataTwo = PipelineRegistersList.IDEX.Dequeue();
+            var signExtension = PipelineRegistersList.IDEX.Dequeue();
+            var rt = PipelineRegistersList.IDEX.Dequeue();
+            var rd = PipelineRegistersList.IDEX.Dequeue();
+
+            Muxs.AluSrcMux = new uint[2];
+            Muxs.AluSrcMux[0] = uint.Parse(readDataTwo.ToString());
+            Muxs.AluSrcMux[1] = uint.Parse(signExtension.ToString());
+
+            var aluValueTwo = Muxs.GetAluSrcMuxVal(ControlUnit.AluSrc);
+
+            ALUControlBlock.ComputeOperation();
+
+            ALU.ValueOne = (uint)readDataOne;
+            ALU.ValueTwo = aluValueTwo;
+            ALU.Operation = ALUControlBlock.Operation;
+            ALU.ComputeResult();
+
+            Muxs.RegDstMux = new uint[2];
+            Muxs.RegDstMux[0] = (uint)rt;
+            Muxs.RegDstMux[1] = (uint)rd;
+
+
+            PipelineRegistersList.EXMEM.Enqueue(ALU.Result);
+            PipelineRegistersList.EXMEM.Enqueue(readDataTwo);
+            PipelineRegistersList.EXMEM.Enqueue(Muxs.GetRegDstMuxVal(ControlUnit.RegDst));
+
+            //Add to Pipeline DataGridView
+            foreach (DataGridViewRow row in PipelineRegisters.Rows)
+            {
+                if (row.Cells["Register"].Value.ToString() != "EX/MEM") continue;
+                PipelineRegisters[1, row.Index].Value = string.Concat(ALU.Result.ToString(), ", ",
+                    readDataTwo.ToString(), ", ", Muxs.GetRegDstMuxVal(ControlUnit.RegDst).ToString());
+                break;
+            }
+
+        }
+
+        private void Memory()
+        {
+            if (PipelineRegistersList.EXMEM.Count == 0)
+            {
+                foreach (DataGridViewRow row in PipelineRegisters.Rows)
+                {
+                    if (row.Cells["Register"].Value.ToString() != "EX/MEM") continue;
+                    PipelineRegisters[1, row.Index].Value = "-";
+                    return;
+                }
+            }
+
+            DataMemoryList.Address = uint.Parse(PipelineRegistersList.EXMEM.Dequeue().ToString());
+            DataMemoryList.WriteData = uint.Parse(PipelineRegistersList.EXMEM.Dequeue().ToString());
+            object readData = 0;
+            var memWrite = ControlUnit.MemWrite;
+            var memRead = ControlUnit.MemRead;
+
+            if (memRead == 1)
+            {
+                readData = DataMemoryList.ComputeReadData();
+            }
+            else if (memWrite == 1)
+            {
+                DataMemoryList.ComputeWriteData();
+            }
+
+            PipelineRegistersList.MEMWB.Enqueue(readData);
+            PipelineRegistersList.MEMWB.Enqueue(DataMemoryList.Address);
+            var variable = PipelineRegistersList.EXMEM.Dequeue();
+            PipelineRegistersList.MEMWB.Enqueue(variable);
+
+            //Add to DataGridView
+            foreach (DataGridViewRow row in PipelineRegisters.Rows)
+            {
+                if (row.Cells["Register"].Value.ToString() != "MEM/WB") continue;
+                PipelineRegisters[1, row.Index].Value = string.Concat(readData.ToString(), ", ",
+                    DataMemoryList.Address.ToString(), ", ", variable.ToString());
+                break;
+            }
+
+            //Add to DataMemory DataGridView
+            DataMemoryDataSource.Rows.Add(ALU.Result, readData);
+
+        }
+
+        private void WriteBack()
+        {
+            if (PipelineRegistersList.MEMWB.Count == 0)
+            {
+                foreach (DataGridViewRow row in PipelineRegisters.Rows)
+                {
+                    if (row.Cells["Register"].Value.ToString() != "MEM/WB") continue;
+                    PipelineRegisters[1, row.Index].Value = "-";
+                    return;
+                }
+            }
+
+            Muxs.MemToRegMux = new uint[2];
+            Muxs.MemToRegMux[1] = uint.Parse(PipelineRegistersList.MEMWB.Dequeue().ToString());
+            Muxs.MemToRegMux[0] = uint.Parse(PipelineRegistersList.MEMWB.Dequeue().ToString());
+            RegisterFile.WriteData = Muxs.GetMemToRegMuxVal(ControlUnit.MemToReg);
+            RegisterFile.WriteRegister = uint.Parse(PipelineRegistersList.MEMWB.Dequeue().ToString());
+
+            if (ControlUnit.RegWrite != 1) return;
+            foreach (DataGridViewRow row in MipsRegistersDataGrid.Rows)
+            {
+                if (row.Cells["Register"].Value.ToString() != string.Concat("$", RegisterFile.WriteRegister.ToString())) continue;
+                MipsRegistersDataGrid[1, row.Index].Value = RegisterFile.WriteData;
+                break;
+            }
+        }
     }
 }
