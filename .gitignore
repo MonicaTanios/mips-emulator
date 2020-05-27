@@ -1,0 +1,6 @@
+# Visual Studio
+[Bb]in/
+[Oo]bj/
+
+# Log files
+*.log
