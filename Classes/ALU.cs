@@ -12,7 +12,7 @@
             if (Operation.Equals("010"))
                 Result = ValueOne + ValueTwo;
             else if (Operation.Equals("110"))
-                Result = ValueOne - ValueOne;
+                Result = ValueOne - ValueTwo;
             else if (Operation.Equals("000"))
                 Result = ValueOne & ValueTwo;
             else
