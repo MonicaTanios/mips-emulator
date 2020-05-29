@@ -124,6 +124,8 @@ namespace MipsEmulator
             RegisterFile.ReadData1();
             RegisterFile.ReadData2();
 
+            //Store opCode
+            PipelineRegistersList.IDEX.Enqueue(instructionOpCode);
             //Store rs, rt
             PipelineRegistersList.IDEX.Enqueue(RegisterFile.ReadDataOne);
             PipelineRegistersList.IDEX.Enqueue(RegisterFile.ReadDataTwo);
@@ -164,6 +166,8 @@ namespace MipsEmulator
                 }
             }
 
+            var opCode = PipelineRegistersList.IDEX.Dequeue();
+            ControlUnit.SetAluControls(opCode.ToString());
             var readDataOne = PipelineRegistersList.IDEX.Dequeue();
             var readDataTwo = PipelineRegistersList.IDEX.Dequeue();
             var signExtension = PipelineRegistersList.IDEX.Dequeue();
@@ -187,7 +191,7 @@ namespace MipsEmulator
             Muxs.RegDstMux[0] = (uint)rt;
             Muxs.RegDstMux[1] = (uint)rd;
 
-
+            PipelineRegistersList.EXMEM.Enqueue(opCode);
             PipelineRegistersList.EXMEM.Enqueue(ALU.Result);
             PipelineRegistersList.EXMEM.Enqueue(readDataTwo);
             PipelineRegistersList.EXMEM.Enqueue(Muxs.GetRegDstMuxVal(ControlUnit.RegDst));
@@ -215,6 +219,8 @@ namespace MipsEmulator
                 }
             }
 
+            var opCode = PipelineRegistersList.EXMEM.Dequeue();
+            ControlUnit.SetAluControls(opCode.ToString());
             DataMemoryList.Address = uint.Parse(PipelineRegistersList.EXMEM.Dequeue().ToString());
             DataMemoryList.WriteData = uint.Parse(PipelineRegistersList.EXMEM.Dequeue().ToString());
             object readData = 0;
@@ -230,6 +236,7 @@ namespace MipsEmulator
                 DataMemoryList.ComputeWriteData();
             }
 
+            PipelineRegistersList.MEMWB.Enqueue(opCode);
             PipelineRegistersList.MEMWB.Enqueue(readData);
             PipelineRegistersList.MEMWB.Enqueue(DataMemoryList.Address);
             var variable = PipelineRegistersList.EXMEM.Dequeue();
@@ -245,7 +252,8 @@ namespace MipsEmulator
             }
 
             //Add to DataMemory DataGridView
-            DataMemoryDataSource.Rows.Add(ALU.Result, readData);
+            if(uint.Parse(readData.ToString()) == 99)
+                DataMemoryDataSource.Rows.Add(ALU.Result, readData);
 
         }
 
@@ -261,6 +269,9 @@ namespace MipsEmulator
                 }
             }
 
+            var opCode = PipelineRegistersList.MEMWB.Dequeue();
+            ControlUnit.SetAluControls(opCode.ToString());
+
             Muxs.MemToRegMux = new uint[2];
             Muxs.MemToRegMux[1] = uint.Parse(PipelineRegistersList.MEMWB.Dequeue().ToString());
             Muxs.MemToRegMux[0] = uint.Parse(PipelineRegistersList.MEMWB.Dequeue().ToString());
@@ -272,6 +283,8 @@ namespace MipsEmulator
             {
                 if (row.Cells["Register"].Value.ToString() != string.Concat("$", RegisterFile.WriteRegister.ToString())) continue;
                 MipsRegistersDataGrid[1, row.Index].Value = RegisterFile.WriteData;
+                var dt = (DataTable) MipsRegistersDataGrid.DataSource;
+                MipsRegisters = GetDict(dt);
                 break;
             }
         }
