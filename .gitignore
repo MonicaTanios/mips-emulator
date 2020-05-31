@@ -7,4 +7,4 @@ obj/Debug/MipsEmulator.exe
 obj/Debug/MipsEmulator.pdb
 
 # Log files
-*.log
+*.logdebug.log

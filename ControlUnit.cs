@@ -48,15 +48,15 @@ namespace MipsEmulator
                                       (1 - Convert.ToUInt32(opCode[4].ToString())) &
                                       (1 - Convert.ToUInt32(opCode[5].ToString()))).ToString());
 
-            RegDst   = int.Parse(rFormat.ToString());
-            AluSrc   = int.Parse(((char)(lw | sw)).ToString());
+            RegDst = int.Parse(rFormat.ToString());
+            AluSrc = int.Parse(((char)(lw | sw)).ToString());
             MemToReg = int.Parse(lw.ToString());
             RegWrite = int.Parse(((char)(rFormat | lw)).ToString());
-            MemRead  = int.Parse(lw.ToString());
+            MemRead = int.Parse(lw.ToString());
             MemWrite = int.Parse(sw.ToString());
-            Branch   = int.Parse(beq.ToString());
-            AluOp1   = int.Parse(rFormat.ToString());
-            AluOp0   = int.Parse(beq.ToString());
+            Branch = int.Parse(beq.ToString());
+            AluOp1 = int.Parse(rFormat.ToString());
+            AluOp0 = int.Parse(beq.ToString());
         }
 
     }

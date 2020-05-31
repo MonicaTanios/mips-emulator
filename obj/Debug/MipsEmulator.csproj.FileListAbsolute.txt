@@ -8,3 +8,12 @@ C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.csproj.CoreComp
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.exe
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.pdb
 C:\Users\Monica\source\repos\MipsEmulator\obj\Debug\MipsEmulator.MipsEmulator.resources
+D:\Projects\mips-emulator\bin\Debug\MipsEmulator.exe
+D:\Projects\mips-emulator\bin\Debug\MipsEmulator.pdb
+D:\Projects\mips-emulator\obj\Debug\MipsEmulator.csprojAssemblyReference.cache
+D:\Projects\mips-emulator\obj\Debug\MipsEmulator.MipsEmulator.resources
+D:\Projects\mips-emulator\obj\Debug\MipsEmulator.Properties.Resources.resources
+D:\Projects\mips-emulator\obj\Debug\MipsEmulator.csproj.GenerateResource.cache
+D:\Projects\mips-emulator\obj\Debug\MipsEmulator.csproj.CoreCompileInputs.cache
+D:\Projects\mips-emulator\obj\Debug\MipsEmulator.exe
+D:\Projects\mips-emulator\obj\Debug\MipsEmulator.pdb
