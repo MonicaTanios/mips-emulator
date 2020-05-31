@@ -15,7 +15,7 @@ namespace MipsEmulator
         public static DataTable DataMemoryDataSource;
         public string[] MachineCodeLines;
         public int ClockCycleValue;
-        public int PcCurrentVal;
+        public int PcCurrentVal = -1;
         public int InitialPcVal;
         public MipsEmulator()
         {
@@ -252,7 +252,7 @@ namespace MipsEmulator
             }
 
             //Add to DataMemory DataGridView
-            if(uint.Parse(readData.ToString()) == 99)
+            if (uint.Parse(readData.ToString()) == 99)
                 DataMemoryDataSource.Rows.Add(ALU.Result, readData);
 
         }
@@ -283,7 +283,7 @@ namespace MipsEmulator
             {
                 if (row.Cells["Register"].Value.ToString() != string.Concat("$", RegisterFile.WriteRegister.ToString())) continue;
                 MipsRegistersDataGrid[1, row.Index].Value = RegisterFile.WriteData;
-                var dt = (DataTable) MipsRegistersDataGrid.DataSource;
+                var dt = (DataTable)MipsRegistersDataGrid.DataSource;
                 MipsRegisters = GetDict(dt);
                 break;
             }
@@ -291,6 +291,12 @@ namespace MipsEmulator
 
         private void runOneCycle_Click(object sender, EventArgs e)
         {
+            if (PcCurrentVal == -1)
+            {
+                MessageBox.Show("Please Enter Machine Code & PC Value then click Initialize");
+                return;
+            }
+
             ClockCycleValue++;
             WriteBack();
             Memory();
@@ -301,6 +307,12 @@ namespace MipsEmulator
 
         private void initialize_Click(object sender, EventArgs e)
         {
+            if (userCode.Text == "")
+            {
+                MessageBox.Show("Please Enter Machine Code & PC Value");
+                return;
+            }
+
             MachineCodeLines = userCode.Text.Split(
                 new[] { "\n" },
                 StringSplitOptions.None
