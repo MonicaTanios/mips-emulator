@@ -38,11 +38,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.PipelineRegisters = new System.Windows.Forms.DataGridView();
-            this.DataMemory = new System.Windows.Forms.DataGridView();
+            this.PipelineRegistersDataGridView = new System.Windows.Forms.DataGridView();
+            this.DataMemoryDataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.MipsRegistersDataGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PipelineRegisters)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataMemory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PipelineRegistersDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataMemoryDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // MipsRegistersDataGrid
@@ -63,7 +63,7 @@
             this.runOneCycle.TabIndex = 35;
             this.runOneCycle.Text = "Run 1 Cycle";
             this.runOneCycle.UseVisualStyleBackColor = true;
-            this.runOneCycle.Click += new System.EventHandler(this.runOneCycle_Click);
+            this.runOneCycle.Click += new System.EventHandler(this.RunOneCycle_Click);
             // 
             // initialize
             // 
@@ -73,7 +73,7 @@
             this.initialize.TabIndex = 34;
             this.initialize.Text = "Initialize";
             this.initialize.UseVisualStyleBackColor = true;
-            this.initialize.Click += new System.EventHandler(this.initialize_Click);
+            this.initialize.Click += new System.EventHandler(this.Initialize_Click);
             // 
             // PCVal
             // 
@@ -136,33 +136,33 @@
             this.label1.TabIndex = 27;
             this.label1.Text = "User Code";
             // 
-            // PipelineRegisters
+            // PipelineRegistersDataGridView
             // 
-            this.PipelineRegisters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.PipelineRegisters.Location = new System.Drawing.Point(747, 37);
-            this.PipelineRegisters.Name = "PipelineRegisters";
-            this.PipelineRegisters.RowHeadersWidth = 51;
-            this.PipelineRegisters.RowTemplate.Height = 24;
-            this.PipelineRegisters.Size = new System.Drawing.Size(271, 402);
-            this.PipelineRegisters.TabIndex = 37;
+            this.PipelineRegistersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PipelineRegistersDataGridView.Location = new System.Drawing.Point(747, 37);
+            this.PipelineRegistersDataGridView.Name = "PipelineRegistersDataGridView";
+            this.PipelineRegistersDataGridView.RowHeadersWidth = 51;
+            this.PipelineRegistersDataGridView.RowTemplate.Height = 24;
+            this.PipelineRegistersDataGridView.Size = new System.Drawing.Size(271, 402);
+            this.PipelineRegistersDataGridView.TabIndex = 37;
             // 
-            // DataMemory
+            // DataMemoryDataGridView
             // 
-            this.DataMemory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataMemory.Location = new System.Drawing.Point(1047, 37);
-            this.DataMemory.Name = "DataMemory";
-            this.DataMemory.RowHeadersWidth = 51;
-            this.DataMemory.RowTemplate.Height = 24;
-            this.DataMemory.Size = new System.Drawing.Size(273, 402);
-            this.DataMemory.TabIndex = 38;
+            this.DataMemoryDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataMemoryDataGridView.Location = new System.Drawing.Point(1047, 37);
+            this.DataMemoryDataGridView.Name = "DataMemoryDataGridView";
+            this.DataMemoryDataGridView.RowHeadersWidth = 51;
+            this.DataMemoryDataGridView.RowTemplate.Height = 24;
+            this.DataMemoryDataGridView.Size = new System.Drawing.Size(273, 402);
+            this.DataMemoryDataGridView.TabIndex = 38;
             // 
             // MipsEmulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 568);
-            this.Controls.Add(this.DataMemory);
-            this.Controls.Add(this.PipelineRegisters);
+            this.Controls.Add(this.DataMemoryDataGridView);
+            this.Controls.Add(this.PipelineRegistersDataGridView);
             this.Controls.Add(this.MipsRegistersDataGrid);
             this.Controls.Add(this.runOneCycle);
             this.Controls.Add(this.initialize);
@@ -177,8 +177,8 @@
             this.Text = "MipsEmulator";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MipsRegistersDataGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PipelineRegisters)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataMemory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PipelineRegistersDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataMemoryDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,8 +196,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView PipelineRegisters;
-        private System.Windows.Forms.DataGridView DataMemory;
+        private System.Windows.Forms.DataGridView PipelineRegistersDataGridView;
+        private System.Windows.Forms.DataGridView DataMemoryDataGridView;
     }
 }
 

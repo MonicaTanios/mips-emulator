@@ -17,8 +17,13 @@
 
         public static object ReadData2()
         {
-            ReadDataTwo = uint.Parse((MipsEmulator.MipsRegisters["$" + ReadRegisterTwo]).ToString());
+            ReadDataTwo = uint.Parse(MipsEmulator.MipsRegisters["$" + ReadRegisterTwo].ToString());
             return ReadDataTwo;
+        }
+
+        public static void PerformRegisterWrite()
+        {
+            MipsEmulator.MipsRegisters["$" + WriteRegister] = WriteData;
         }
     }
 }
