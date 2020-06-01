@@ -150,8 +150,12 @@ namespace MipsEmulator
             foreach (DataGridViewRow row in PipelineRegistersDataGridView.Rows)
             {
                 if (row.Cells["Register"].Value.ToString() != "ID/EX") continue;
-                PipelineRegistersDataGridView[1, row.Index].Value = string.Concat(RegisterFile.ReadDataOne.ToString(), ", ",
-                    RegisterFile.ReadDataTwo, ", ", address.ToString(), ", ", RegisterFile.ReadRegisterTwo.ToString(), ", ", Convert.ToUInt32(instructionFormat.Substring(16, 5), 2).ToString());
+                PipelineRegistersDataGridView[1, row.Index].Value = string.Concat(
+                    RegisterFile.ReadDataOne.ToString(), "\n",
+                    RegisterFile.ReadDataTwo, "\n", 
+                    address.ToString(), "\n", 
+                    RegisterFile.ReadRegisterTwo.ToString(), "\n", 
+                    Convert.ToUInt32(instructionFormat.Substring(16, 5), 2).ToString());
                 break;
             }
             ALUControlBlock.AluOp = ControlUnit.AluOp0 + ControlUnit.AluOp1.ToString();
@@ -206,8 +210,10 @@ namespace MipsEmulator
             foreach (DataGridViewRow row in PipelineRegistersDataGridView.Rows)
             {
                 if (row.Cells["Register"].Value.ToString() != "EX/MEM") continue;
-                PipelineRegistersDataGridView[1, row.Index].Value = string.Concat(ALU.Result.ToString(), ", ",
-                    readDataTwo.ToString(), ", ", Muxs.GetRegDstMuxVal(ControlUnit.RegDst).ToString());
+                PipelineRegistersDataGridView[1, row.Index].Value = string.Concat(
+                    ALU.Result.ToString(), "\n",
+                    readDataTwo.ToString(), "\n", 
+                    Muxs.GetRegDstMuxVal(ControlUnit.RegDst).ToString());
                 break;
             }
 
@@ -247,8 +253,10 @@ namespace MipsEmulator
             foreach (DataGridViewRow row in PipelineRegistersDataGridView.Rows)
             {
                 if (row.Cells["Register"].Value.ToString() != "MEM/WB") continue;
-                PipelineRegistersDataGridView[1, row.Index].Value = string.Concat(DataMemoryList.ReadData.ToString(), ", ",
-                    DataMemoryList.Address.ToString(), ", ", variable.ToString());
+                PipelineRegistersDataGridView[1, row.Index].Value = string.Concat(
+                    DataMemoryList.ReadData.ToString(), "\n",
+                    DataMemoryList.Address.ToString(), "\n", 
+                    variable.ToString());
                 break;
             }
 
@@ -308,6 +316,9 @@ namespace MipsEmulator
             Execute();
             Decode();
             Fetch();
+            PipelineRegistersDataGridView.Columns[1].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            PipelineRegistersDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            PipelineRegistersDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         }
 
         private void Initialize_Click(object sender, EventArgs e)
